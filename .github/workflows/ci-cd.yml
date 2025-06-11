@@ -1,0 +1,58 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run tests
+      run: |
+        pytest tests/
+        
+    - name: Security scan
+      run: |
+        pip install bandit safety
+        bandit -r src/
+        safety check
+        
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Build Docker image
+      run: |
+        docker build -t ai-devsecops/threat-detector:${{ github.sha }} .
+        
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+        
+    - name: Deploy to EKS
+      run: |
+        aws eks update-kubeconfig --name ai-devsecops-cluster
+        helm upgrade --install ai-devsecops helm/ai-devsecops \
+          --set image.tag=${{ github.sha }}

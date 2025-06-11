@@ -1,0 +1,27 @@
+replicaCount: 2
+
+image:
+  repository: ai-devsecops/threat-detector
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+
+modelStorage:
+  size: 10Gi
+  storageClass: standard

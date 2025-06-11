@@ -1,0 +1,46 @@
+OSE 2025/IEEE SOSE 2025/ai-devsecops-framework/ansible/setup.yml
+---
+- name: Setup AI-DevSecOps Framework
+  hosts: all
+  become: true
+  
+  vars:
+    prometheus_version: 2.37.0
+    
+  tasks:
+    - name: Install system dependencies
+      apt:
+        name: 
+          - docker.io
+          - python3-pip
+          - curl
+        state: present
+        update_cache: yes
+        
+    - name: Install Python packages
+      pip:
+        name:
+          - docker-compose
+          - kubernetes
+        state: present
+        
+    - name: Setup Prometheus
+      block:
+        - name: Create Prometheus config directory
+          file:
+            path: /etc/prometheus
+            state: directory
+            
+        - name: Copy Prometheus config
+          template:
+            src: templates/prometheus.yml.j2
+            dest: /etc/prometheus/prometheus.yml
+            
+    - name: Start monitoring services
+      docker_compose:
+        project_src: "{{ playbook_dir }}/../"
+        files:
+          - docker-compose.yml
+        services:
+          - prometheus
+        state: present
