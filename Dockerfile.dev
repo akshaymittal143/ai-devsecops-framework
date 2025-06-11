@@ -1,0 +1,14 @@
+FROM python:3.8-slim
+
+WORKDIR /app
+
+# Install development dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install pytest pytest-cov black isort
+
+# Copy application code
+COPY . .
+
+# Run tests and linting
+CMD ["bash", "-c", "pytest tests/ && black src/ tests/ && isort src/ tests/"]
