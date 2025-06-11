@@ -22,7 +22,7 @@ An AI-enhanced security automation framework for cloud-native applications, feat
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ai-devsecops-framework.git
+git clone https://github.com/akshaymittal143/ai-devsecops-framework.git
 cd ai-devsecops-framework
 ```
 

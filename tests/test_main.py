@@ -1,22 +1,32 @@
-import unittest
-from src.main import main_function  # Replace with the actual function to test
+"""Unit tests for the AI-DevSecOps framework"""
 
-class TestMainFunction(unittest.TestCase):
+import pytest
+import numpy as np
+from src.main import LSTMThreatDetector, load_config
 
-    def test_main_function_valid_input(self):
-        # Test with valid input
-        result = main_function("valid_input")  # Replace with actual input
-        self.assertEqual(result, "expected_output")  # Replace with expected output
+def test_lstm_detector_initialization():
+    """Test LSTM detector initialization"""
+    detector = LSTMThreatDetector(input_dim=64, sequence_length=10)
+    assert detector.input_dim == 64
+    assert detector.sequence_length == 10
+    assert detector.model is not None
 
-    def test_main_function_invalid_input(self):
-        # Test with invalid input
-        with self.assertRaises(ValueError):  # Replace with the expected exception
-            main_function("invalid_input")  # Replace with actual input
+def test_model_training():
+    """Test model training with dummy data"""
+    detector = LSTMThreatDetector(input_dim=64, sequence_length=10)
+    X = np.random.random((100, 10, 64))
+    y = np.random.randint(0, 2, (100,))
+    history = detector.train(X, y, epochs=1)
+    assert 'loss' in history
+    assert 'accuracy' in history
 
-    def test_main_function_edge_case(self):
-        # Test edge case
-        result = main_function("edge_case_input")  # Replace with actual input
-        self.assertEqual(result, "expected_edge_case_output")  # Replace with expected output
+def test_config_loading():
+    """Test configuration loading"""
+    config = load_config('config/settings.yaml')
+    assert config['application_name'] == 'ai-devsecops-framework'
+    assert config['version'] == '1.0.0'
 
-if __name__ == '__main__':
-    unittest.main()
+def test_invalid_config():
+    """Test handling of invalid configuration"""
+    with pytest.raises(Exception):
+        load_config('nonexistent.yaml')
