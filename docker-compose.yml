@@ -1,37 +1,38 @@
 version: '3.8'
 
 services:
-  threat-detector:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+  detector:
+    build: .
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+    environment:
+      - KUBERNETES_SERVICE_HOST=${K8S_HOST}
+      - KUBERNETES_SERVICE_PORT=${K8S_PORT}
     ports:
       - "8080:8080"
-    volumes:
-      - ./models:/app/models
-    environment:
-      - MODEL_PATH=/app/models/threat_detector.h5
-      - LOG_LEVEL=INFO
     depends_on:
-      - prometheus
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - redis
+      - postgres
 
-  prometheus:
-    image: prom/prometheus:v2.37.0
+  redis:
+    image: redis:6-alpine
     ports:
-      - "9090:9090"
+      - "6379:6379"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.retention.time=15d'
+      - redis_data:/data
 
-  security-scanner:
-    image: aquasec/trivy:latest
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-devsecops_db}
+      POSTGRES_USER: ${DB_USER:-db_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-db_password}
+    ports:
+      - "5432:5432"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: ["image", "--severity", "HIGH,CRITICAL", "threat-detector"]
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  redis_data:
+  postgres_data:

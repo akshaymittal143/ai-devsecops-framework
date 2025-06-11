@@ -13,31 +13,47 @@ An AI-enhanced security automation framework for cloud-native applications, feat
 ## 📋 Prerequisites
 
 - Python 3.8+
-- Docker
-- Kubernetes cluster
-- Jenkins
-- Prometheus
+- Docker 20.10+
+- Kubernetes cluster 1.19+
+- Jenkins 2.3x+
+- Prometheus 2.30+
+- Helm 3.x+
+- kubectl 1.19+
+- Access to a container registry
+- At least 4GB RAM and 2 CPU cores
 
 ## 🏃‍♂️ Quick Start
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ai-devsecops-framework.git
+git clone https://github.com/akshaymittal143/ai-devsecops-framework.git
 cd ai-devsecops-framework
 ```
 
 2. Install dependencies:
 ```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-3. Configure settings in `config/settings.yaml`
+3. Configure the environment:
+```bash
+cp config/settings.example.yaml config/settings.yaml
+# Edit config/settings.yaml with your settings
+```
+
+4. Start the services:
+```bash
+docker-compose up -d
+kubectl apply -f deploy/
+```
 
 ## 🏗 Architecture
 
 ### High-Level System Architecture
 
-![High-Level Architecture](docs/architecture/devSecOps.png)
+![High-Level Architecture](./docs/architecture/images/devSecOps.png)
 
 The system architecture shows the main components:
 - LSTM-based threat detection
@@ -47,7 +63,7 @@ The system architecture shows the main components:
 
 ### Data Flow
 
-![Data Flow](docs/architecture/DataFlow.png)
+![Data Flow](./docs/architecture/images/DataFlow.png)
 
 Illustrates how data flows through:
 - Git repository
@@ -57,7 +73,7 @@ Illustrates how data flows through:
 
 ### Security Model
 
-![Security Model](docs/architecture/SecurityModel.png)
+![Security Model](./docs/architecture/images/SecurityModel.png)
 
 Shows the security components:
 - WAF integration

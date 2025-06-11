@@ -20,5 +20,25 @@ api:
 features:
   anomaly_detection: true
   predictive_threat_detection: true
-  automated_policy_enforcement: true
-  incident_response: true
+  automated_response: true
+
+model_config:
+  lstm:
+    input_dim: 64
+    sequence_length: 10
+    units: 64
+    dropout: 0.2
+    
+  autoencoder:
+    input_dim: 64
+    encoding_dim: 32
+    
+security:
+  detection_threshold: 0.85
+  confidence_threshold: 0.90
+  resolution_strategy: conservative
+  
+source_weights:
+  lstm_detector: 1.0
+  autoencoder: 0.8
+  behavior_monitor: 0.7
