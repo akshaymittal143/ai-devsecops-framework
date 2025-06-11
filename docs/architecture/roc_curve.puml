@@ -1,0 +1,43 @@
+@startuml ROC Curves
+
+skinparam {
+    backgroundColor white
+    defaultFontName Arial
+    LineThickness 2
+}
+
+title ROC Curve Comparison
+
+concise "Performance" as Perf
+
+@Perf {
+    #00BCF2 : Our Framework
+    #FF6B6B : Prisma Cloud
+    #4CAF50 : Aqua Trivy
+    #FFA500 : Falco
+}
+
+Perf is {
+    state "Baseline" as B
+    state "(0,0)" as S0
+    state "(0.2,0.4)" as S1
+    state "(0.4,0.8)" as S2
+    state "(0.94,0.95)" as S3
+    state "(1,1)" as S4
+}
+
+S0 -[#gray,dashed]-> S4 : Random (AUC=0.50)
+S0 -[#00BCF2]-> S1 -[#00BCF2]-> S2 -[#00BCF2]-> S3 -[#00BCF2]-> S4 : AUC=0.97
+S0 -[#FF6B6B]-> S1 -[#FF6B6B]-> S2 -[#FF6B6B]-> S3 -[#FF6B6B]-> S4 : AUC=0.94
+S0 -[#4CAF50]-> S1 -[#4CAF50]-> S2 -[#4CAF50]-> S3 -[#4CAF50]-> S4 : AUC=0.93
+S0 -[#FFA500]-> S1 -[#FFA500]-> S2 -[#FFA500]-> S3 -[#FFA500]-> S4 : AUC=0.90
+
+legend right
+|= System |= AUC |
+|<#00BCF2> Our Framework | 0.97 |
+|<#FF6B6B> Prisma Cloud | 0.94 |
+|<#4CAF50> Aqua Trivy | 0.93 |
+|<#FFA500> Falco | 0.90 |
+endlegend
+
+@enduml

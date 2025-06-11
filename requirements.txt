@@ -1,12 +1,13 @@
 tensorflow>=2.8.0
 numpy>=1.21.0
 pandas>=1.3.0
-pyyaml>=5.4.1
 scikit-learn>=1.0.2
-prometheus-client>=0.14.1
+pyyaml>=5.4.1
+# Data processing
+pyarrow>=7.0.0
+fastparquet>=0.8.1
+category_encoders>=2.5.0
+# Attack simulation
+docker>=6.0.0
 kubernetes>=23.6.0
-click>=8.0.0
-pytest>=7.0.0
-pylint>=2.12.0
-bandit>=1.7.0
-safety>=2.3.1
+locust>=2.8.6

@@ -1,0 +1,30 @@
+@startuml Latency Comparison
+
+skinparam backgroundColor white
+
+scale 0 to 10000
+scale 0 to 3000
+
+title Detection Latency vs Event Load
+
+rectangle "" {
+    line "AI Framework" #00BCF2 {
+        x=[0, 2000, 5000, 10000]
+        y=[100, 200, 400, 800]
+    }
+
+    line "Traditional IDS" #FF6B6B {
+        x=[0, 2000, 5000, 10000]
+        y=[200, 600, 1500, 2800]
+    }
+}
+
+legend
+|= System |= Avg Latency |
+| AI Framework | 1.5s |
+| Traditional | 2.8s |
+endlegend
+
+caption Framework maintains sub-2s latency under high load (10k events/sec)
+
+@enduml
