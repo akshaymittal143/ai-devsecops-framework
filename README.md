@@ -53,7 +53,7 @@ kubectl apply -f deploy/
 
 ### High-Level System Architecture
 
-![High-Level Architecture](./docs/architecture/images/devSecOps.png)
+![High-Level Architecture](./docs/architecture/Architecture.png)
 
 The system architecture shows the main components:
 - LSTM-based threat detection
@@ -63,7 +63,7 @@ The system architecture shows the main components:
 
 ### Data Flow
 
-![Data Flow](./docs/architecture/images/DataFlow.png)
+![Data Flow](./docs/architecture/DataFlow.png)
 
 Illustrates how data flows through:
 - Git repository
@@ -73,7 +73,7 @@ Illustrates how data flows through:
 
 ### Security Model
 
-![Security Model](./docs/architecture/images/SecurityModel.png)
+![Security Model](./docs/architecture/SecurityModel.png)
 
 Shows the security components:
 - WAF integration
