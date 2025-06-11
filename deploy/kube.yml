@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: threat-detector
+  labels:
+    app: threat-detector
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: threat-detector
+  template:
+    metadata:
+      labels:
+        app: threat-detector
+    spec:
+      containers:
+      - name: threat-detector
+        image: ai-devsecops/threat-detector:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "1"
+            memory: "2Gi"
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+        env:
+        - name: MODEL_PATH
+          value: "/models/threat_detector.h5"
+        volumeMounts:
+        - name: model-volume
+          mountPath: /models
+      volumes:
+      - name: model-volume
+        persistentVolumeClaim:
+          claimName: model-storage

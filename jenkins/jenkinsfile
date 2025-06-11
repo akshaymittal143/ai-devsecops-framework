@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+    
+    environment {
+        DOCKER_REGISTRY = 'your-registry'
+        IMAGE_NAME = 'ai-devsecops/threat-detector'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+    
+    stages {
+        stage('Test') {
+            steps {
+                sh 'python -m pytest tests/'
+            }
+        }
+        
+        stage('Security Scan') {
+            steps {
+                sh 'bandit -r src/'
+                sh 'safety check'
+            }
+        }
+        
+        stage('Build & Push') {
+            steps {
+                script {
+                    docker.build("${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}")
+                    docker.withRegistry('https://${DOCKER_REGISTRY}', 'registry-credentials') {
+                        docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                sh """
+                    kubectl apply -f deploy/kubernetes/threat-detector.yaml
+                    kubectl set image deployment/threat-detector \
+                        threat-detector=${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+                """
+            }
+        }
+    }
+}

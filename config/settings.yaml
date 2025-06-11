@@ -1,0 +1,24 @@
+application_name: ai-devsecops-framework
+version: 1.0.0
+description: Configuration settings for the AI-augmented DevSecOps framework.
+logging:
+  level: INFO
+  file: logs/app.log
+database:
+  host: localhost
+  port: 5432
+  user: db_user
+  password: db_password
+  name: devsecops_db
+security:
+  enable_https: true
+  ssl_cert_path: /path/to/cert.pem
+  ssl_key_path: /path/to/key.pem
+api:
+  base_url: /api/v1
+  timeout: 30
+features:
+  anomaly_detection: true
+  predictive_threat_detection: true
+  automated_policy_enforcement: true
+  incident_response: true
