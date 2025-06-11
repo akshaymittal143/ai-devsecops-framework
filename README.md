@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 ### High-Level System Architecture
 
-![High-Level Architecture](docs/architecture/high-level-architecture.png)
+![High-Level Architecture](docs/architecture/devSecOps.png)
 
 The system architecture shows the main components:
 - LSTM-based threat detection
@@ -47,7 +47,7 @@ The system architecture shows the main components:
 
 ### Data Flow
 
-![Data Flow](docs/architecture/data-flow.png)
+![Data Flow](docs/architecture/Dataflow.png)
 
 Illustrates how data flows through:
 - Git repository
@@ -57,7 +57,7 @@ Illustrates how data flows through:
 
 ### Security Model
 
-![Security Model](docs/architecture/security-model.png)
+![Security Model](docs/architecture/SecurityModel.png)
 
 Shows the security components:
 - WAF integration
