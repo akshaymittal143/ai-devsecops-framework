@@ -47,7 +47,7 @@ The system architecture shows the main components:
 
 ### Data Flow
 
-![Data Flow](docs/architecture/Dataflow.png)
+![Data Flow](docs/architecture/DataFlow.png)
 
 Illustrates how data flows through:
 - Git repository
