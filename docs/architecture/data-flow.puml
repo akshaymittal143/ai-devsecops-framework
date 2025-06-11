@@ -1,0 +1,29 @@
+@startuml Data Flow
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title AI-Augmented DevSecOps Data Flow
+
+Person(developer, "Developer", "Commits code")
+Person(secops, "SecOps", "Monitors security")
+
+System_Boundary(pipeline, "CI/CD Pipeline") {
+    Container(git, "Git Repository", "Source Code")
+    Container(jenkins, "Jenkins", "CI/CD")
+    Container(scanner, "Security Scanner", "SAST/DAST")
+}
+
+System_Boundary(runtime, "Runtime Environment") {
+    Container(lstm, "LSTM Model", "Threat Detection")
+    Container(prometheus, "Prometheus", "Metrics")
+    Container(logs, "Log Aggregation", "ELK Stack")
+}
+
+Rel(developer, git, "Commits")
+Rel(git, jenkins, "Triggers")
+Rel(jenkins, scanner, "Runs")
+Rel(jenkins, lstm, "Deploys")
+Rel(lstm, prometheus, "Reports")
+Rel(prometheus, secops, "Alerts")
+Rel(logs, secops, "Monitors")
+
+@enduml

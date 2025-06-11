@@ -1,0 +1,30 @@
+@startuml AI-Augmented DevSecOps Architecture
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title AI-Augmented DevSecOps System Architecture
+
+Container_Boundary(cloud, "Cloud Infrastructure") {
+    Container(k8s, "Kubernetes Cluster", "Container Orchestration", "Manages containerized services")
+    
+    Container_Boundary(ml_components, "ML Components") {
+        Container(threat_detector, "LSTM Threat Detector", "TensorFlow", "Real-time threat detection")
+        Container(anomaly_detector, "Anomaly Detection", "Python", "Behavioral analysis")
+    }
+    
+    Container_Boundary(monitoring, "Monitoring") {
+        Container(prometheus, "Prometheus", "Metrics", "Telemetry collection")
+        Container(alertmanager, "Alert Manager", "Alerts", "Alert routing")
+    }
+}
+
+Container(ci_cd, "CI/CD Pipeline", "Jenkins", "Build, test, deploy")
+Container(security_scanner, "Security Scanner", "Tools", "SAST, DAST, SCA")
+
+Rel(k8s, threat_detector, "Hosts")
+Rel(k8s, anomaly_detector, "Hosts")
+Rel(prometheus, threat_detector, "Collects metrics")
+Rel(prometheus, alertmanager, "Triggers alerts")
+Rel(ci_cd, security_scanner, "Runs")
+Rel(ci_cd, k8s, "Deploys to")
+
+@enduml

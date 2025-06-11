@@ -1,0 +1,26 @@
+@startuml Security Model
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title AI-Augmented DevSecOps Security Model
+
+System_Boundary(security, "Security Controls") {
+    Container(waf, "WAF", "Web Application Firewall")
+    Container(lstm, "LSTM Model", "Threat Detection")
+    Container(policy, "Policy Engine", "Security Policies")
+    Container(iam, "IAM", "Access Control")
+}
+
+System_Boundary(monitoring, "Security Monitoring") {
+    Container(alerts, "Alert Manager", "Security Alerts")
+    Container(audit, "Audit Logs", "Security Events")
+    Container(metrics, "Security Metrics", "KPIs")
+}
+
+Rel(waf, lstm, "Feeds traffic data")
+Rel(lstm, policy, "Enforces")
+Rel(policy, iam, "Controls")
+Rel(lstm, alerts, "Triggers")
+Rel(alerts, audit, "Logs")
+Rel(audit, metrics, "Generates")
+
+@enduml

@@ -18,11 +18,11 @@ An AI-enhanced security automation framework for cloud-native applications, feat
 - Jenkins
 - Prometheus
 
-## 🛠 Installation
+## 🏃‍♂️ Quick Start
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/akshaymittal143/ai-devsecops-framework.git
+git clone https://github.com/yourusername/ai-devsecops-framework.git
 cd ai-devsecops-framework
 ```
 
@@ -33,25 +33,89 @@ pip install -r requirements.txt
 
 3. Configure settings in `config/settings.yaml`
 
-## 🏃‍♂️ Usage
+## 🏗 Architecture
 
-1. Start the threat detection service:
-```bash
-python src/main.py
-```
+### High-Level System Architecture
+![High-Level Architecture](docs/architecture/high-level-architecture.png)
 
-2. Deploy to Kubernetes:
-```bash
-kubectl apply -f deploy/kube.yml
-```
+The system architecture shows the main components:
+- LSTM-based threat detection
+- Kubernetes integration
+- Prometheus monitoring
+- CI/CD pipeline
+
+### Data Flow
+![Data Flow](docs/architecture/data-flow.png)
+
+Illustrates how data flows through:
+- Git repository
+- Jenkins pipeline
+- Security scanners
+- Production environment
+
+### Security Model
+![Security Model](docs/architecture/security-model.png)
+
+Shows the security components:
+- WAF integration
+- Policy enforcement
+- Access control
+- Monitoring systems
 
 ## 📊 Performance
 
-Current model performance (see models/results.md):
+Current model performance:
 - Precision: 0.93
 - Recall: 0.95
 - F1 Score: 0.94
 
+For detailed results, see [models/results.md](models/results.md)
+
+## 🛠 Development
+
+### Generate Architecture Diagrams
+
+1. Install PlantUML:
+```bash
+brew install plantuml
+```
+
+2. Generate diagrams:
+```bash
+cd docs/architecture
+plantuml *.puml
+```
+
+3. Diagrams will be created as PNG files in the same directory
+
 ## 📝 Documentation
 
-Detailed documentation available in `/docs`
+### Key Components
+
+#### ML Components
+- LSTM-based threat detection
+- Anomaly detection engine
+- Real-time prediction service
+
+#### Security Controls
+- Web Application Firewall (WAF)
+- Policy enforcement engine
+- Access control system
+
+#### Monitoring
+- Prometheus metrics collection
+- Alert Manager for security notifications
+- Audit logging system
+
+#### CI/CD Integration
+- Jenkins pipeline integration
+- Security scanning (SAST/DAST)
+- Automated deployment
+
+## 🤝 Contributing
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
