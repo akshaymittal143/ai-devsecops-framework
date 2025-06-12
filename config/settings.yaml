@@ -14,6 +14,22 @@ security:
   enable_https: true
   ssl_cert_path: /path/to/cert.pem
   ssl_key_path: /path/to/key.pem
+  api_fuzzing:
+    max_requests_per_endpoint: 100
+    timeout_seconds: 30
+    attack_patterns_path: config/attack_patterns.yaml
+    severity_levels:
+      - CRITICAL
+      - HIGH
+      - MEDIUM
+      - LOW
+    test_types:
+      - injection
+      - xss
+      - auth_bypass
+      - rate_limit
+    retries: 3
+    concurrent_tests: 5
 api:
   base_url: /api/v1
   timeout: 30
@@ -22,23 +38,18 @@ features:
   predictive_threat_detection: true
   automated_response: true
 
-model_config:
+model:
   lstm:
-    input_dim: 64
-    sequence_length: 10
     units: 64
-    dropout: 0.2
-    
-  autoencoder:
-    input_dim: 64
-    encoding_dim: 32
+    sequence_length: 100
+    threshold: 0.85
     
 security:
-  detection_threshold: 0.85
-  confidence_threshold: 0.90
-  resolution_strategy: conservative
+  scan_interval: 300
+  max_retries: 3
+  alert_threshold: 0.9
   
-source_weights:
-  lstm_detector: 1.0
-  autoencoder: 0.8
-  behavior_monitor: 0.7
+monitoring:
+  prometheus_port: 9090
+  grafana_port: 3000
+  metrics_retention: 30d
