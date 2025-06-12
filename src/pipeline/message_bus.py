@@ -2,6 +2,7 @@ from typing import Dict
 import threading
 from queue import Queue
 import logging
+import time
 
 class SecurityMessageBus:
     def __init__(self):
@@ -44,5 +45,9 @@ class SecurityMessageBus:
         return {
             'timestamp': time.time(),
             'source': signal['source'],
-        }            'context': self._gather_context()
+            'context': self._gather_context()
         }
+    
+    def _gather_context(self):
+        # Placeholder for context gathering logic
+        return {}
