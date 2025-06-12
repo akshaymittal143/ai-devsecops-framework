@@ -138,3 +138,91 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🧩 Module Overview
+
+### Detection
+- `lstm_detector.py`: LSTM-based threat detection
+- `zero_day_detector.py`: Zero-day attack detection using behavioral analysis
+- `attack_generator.py`: Synthetic attack scenario generation
+- `engine.py`: Detection engine orchestration
+
+### Pipeline
+- `message_bus.py`: Event-driven communication
+- `orchestrator.py`: Component coordination and conflict resolution
+- `policy_engine.py`: Dynamic security policy generation and enforcement
+- `preprocessor.py`: Data cleaning and normalization
+- `k8s_integration.py`: Kubernetes API integration
+- `security_gate.py`: Security validation entry point
+
+### API
+- `security_validator.py`: API fuzzing and security validation
+- `test_runner.py`: API security test runner with mutation and anomaly detection
+
+### Validation
+- `business_logic_validator.py`: Business logic flaw detection
+
+### Telemetry
+- `collector.py`: Telemetry and monitoring data collection
+
+## ⚙️ Configuration
+
+Edit `config/settings.yaml` to customize detection thresholds, orchestration strategies, and monitoring settings:
+
+```yaml
+detection:
+  model:
+    type: lstm
+    units: 64
+    window_size: 10
+  threshold:
+    anomaly: 0.95
+    confidence: 0.85
+orchestration:
+  strategy: confidence-weighted
+  retry_attempts: 3
+  timeout: 30s
+monitoring:
+  prometheus:
+    scrape_interval: 15s
+  logging:
+    level: info
+    retention: 30d
+```
+
+## 🛡️ API Usage Example
+
+### Python (Programmatic)
+```python
+from src.detection.lstm_detector import LSTMDetector
+from src.detection.zero_day_detector import ZeroDayDetector
+from src.pipeline.policy_engine import PolicyEngine
+
+lstm = LSTMDetector()
+zero_day = ZeroDayDetector()
+policy_engine = PolicyEngine()
+
+# Train and detect
+lstm.fit(X_train, y_train)
+alerts = lstm.detect(X_test)
+zero_day.fit(X_train, y_train)
+zero_day_alerts = zero_day.detect(X_test)
+
+# Generate and enforce policy
+for alert in alerts:
+    policy = policy_engine.generate_policy(alert)
+    policy_engine.enforce_policy(policy)
+```
+
+### REST API (Example)
+```bash
+curl -X POST http://localhost:8000/api/v1/detect \
+  -H 'Content-Type: application/json' \
+  -d '{"data": {"network_flows": [...], "system_metrics": [...]}}'
+```
+
+## 🧑‍💻 How to Extend
+- Add new detection models in `src/detection/`
+- Implement new policy templates in `src/pipeline/policy_engine.py`
+- Add new API endpoints in `src/api/`
+- Add business rules in `src/validation/business_logic_validator.py`
